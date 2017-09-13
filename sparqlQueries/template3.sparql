@@ -1,0 +1,27 @@
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX efo: <http://www.ebi.ac.uk/efo/>
+PREFIX sio: <http://semanticscience.org/resource/>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+
+SELECT DISTINCT (COUNT(DISTINCT ?measurement) AS ?noOfmeasurement) ?sampleURI ?sample ?analysisURI ?analysis  WHERE {
+
+ VALUES(?timepointURI) {(<#timepoint#>)}  
+
+  ?timepointURI rdfs:label "culture"; 
+      prov:generated ?prebuffer;
+      dct:title ?timepoint.
+                               
+?sampleURI prov:wasDerivedFrom ?prebuffer;
+           dct:title ?sample.
+  
+?analysisURI sio:SIO_000628 ?measurement;            
+      a ?analysisType;            
+      prov:used ?sampleURI.
+
+?analysisType rdfs:label ?analysis.
+  
+?measurement a efo:EFO_0001444;                 
+      sio:SIO_000300 ?measurementValue;                 
+      sio:SIO_000628 ?geneProductURI.
+
+} GROUP BY ?sampleURI ?sample ?analysisURI ?analysis

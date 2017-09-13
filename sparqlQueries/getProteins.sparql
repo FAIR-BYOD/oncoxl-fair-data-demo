@@ -1,0 +1,7 @@
+PREFIX wiki: <http://www.wikidata.org/prop/direct/>
+
+SELECT DISTINCT ?url ?value {
+
+  ?url wiki:P352 ?value
+
+}
